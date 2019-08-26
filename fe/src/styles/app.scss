@@ -1,6 +1,12 @@
 $layout: inline-block;
 
-
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header{
+  height: 163px;
+  overflow: hidden;
+}
+#inputcode{
+  width: 80px;
+}
 #user-menu {
   height: 50px;
   > a {
@@ -11,7 +17,25 @@ $layout: inline-block;
     justify-content: center;
   }
 }
-
+.code{
+  display: inline-block;
+  height: 34px;background: skyblue;
+  line-height: 30px;
+  padding: 2px 2px;
+  width:100px;
+  border-radius: 3px;
+  position: relative;
+}
+// .code:after{
+//   content:"获取验证码";
+//   display:inline-block;
+//   position: absolute;
+//   left: 0;
+//   line-height: 30px;
+//   padding: 2px 2px;
+//   height: 34px;
+//   width:100px;
+// }
 // .dropdown-toggle {
 //   color: #fff;
 //   height: 50px;

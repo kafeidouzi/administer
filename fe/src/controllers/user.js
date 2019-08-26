@@ -33,15 +33,22 @@ export default {
 
     bindEventToBtn(){
         $('.hidden-xs').on('click',function(){
+
             _type = $(this).attr('id')
             _url = _type === 'btn-signin'? '/api/users/signin' :'api/users/signup'
+            if(_url === 'api/users/signup'){
+                $('.navbar-nav> .user-menu>.dropdown-menu>li.user-header').css('height','278px')
+            }else{
+                $('.navbar-nav> .user-menu>.dropdown-menu>li.user-header').css('height','163px')
+            }
+            //qq = _url === 'api/users/signup' ? true :false
             $('input').val('')
         })
 
         $('#btn-submit').on('click',()=>{
            // let data = $('#inputEmail3').val()
             let data = $('#user-form').serialize()
-            console.log(data)
+           // console.log(data)
             $.ajax({
                 url :_url,
                 type:'POST',
@@ -63,6 +70,7 @@ export default {
                         if(result.ret){
                             alert('亲，注册成功了哟')
                         }else{
+                            console.log(result)
                             alert(result.data.msg)
                         }
                     }
@@ -106,6 +114,18 @@ export default {
                         
                     // }
                 }
+            })
+        })
+        $('.code').on('click',()=>{
+            let data = $('#user-form').serialize()
+            $.ajax({
+                url:'/api/users/yanzheng',
+                type:'post',
+                data,
+                success(result){
+                    alert(result.data.msg)
+                }
+
             })
         })
     }

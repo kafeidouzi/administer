@@ -54,13 +54,13 @@
   {{if total > 0 }}
     <div class="box-footer clearfix">
       <ul id="page" class="pagination pagination-sm no-margin pull-right">
-        <li><a href="#">&laquo;</a></li>
+        <li class="prev"><a href="javascript :(void)">&laquo;</a></li>
         {{each pageCount }}
         <li data-index="{{$index}}" class="{{if pageNo == $index}}active{{/if}}">
           <a href="#">{{$value+1}}</a>
         </li>
         {{/each}}
-        <li><a href="#">&raquo;</a></li>
+        <li classs="next"><a href="javascript:(void)">&raquo;</a></li>
       </ul>
     </div>
   {{/if}}

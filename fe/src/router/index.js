@@ -15,11 +15,11 @@ router.use((req,res,next)=>{
     .removeClass('active')
 })
 
-router.route('/', Home.render)
+router.route('/home', Home.render)
 router.route('/position', Position.render)
 router.route('/position_add',Position.add)
 router.route('/position_edit',Position.edit)
 
-router.redirect('/')
+router.redirect('/home')
 
 export default router

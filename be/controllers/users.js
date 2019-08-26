@@ -1,8 +1,14 @@
+const nodemailer = require('nodemailer')
+const ljtools = require('ljtools')
 const userModel = require('../models/users') 
 
 const tools = require('../utils/tools')
+let {randomNum} = ljtools
+      
+let num = randomNum(1,49090)
 
 module.exports = {
+  
     async signup(req,res,next) {
       //设置头部，高速前端解析为json字符串
       res.set('content-type','application/json;charset=utf-8')
@@ -14,18 +20,27 @@ module.exports = {
     //        res.send('fail');
     //    }
       // let {username,password} =req.body
-
+      let {username,password,user_email,code} = req.body
+      if(!(code == num)){
+        res.render('fail',{
+          data:JSON.stringify({
+            msg:"验证码输入错误"
+          })
+        })
+        return false
+      }
       //从数据库中取出用户信息
       let result =await userModel.findOne(username)
       //判断用户名是否存在
       if(!result){
-        let {username,password} = req.body
+        
       //密码加密
         let newPassword = await tools.crypt(req.body.password)
      //将数据保存到数据库
       await userModel.save({
             username,
-            password:newPassword
+            password:newPassword,
+            user_email:user_email,
         })
 
         //给前端返回接口
@@ -37,12 +52,14 @@ module.exports = {
                 msg:'用户注册成功'
             })
         })
+      }else{
+        res.render('fail',{
+          data:JSON.stringify({
+              msg:'用户名已存在'
+          })
+      })
       }
-      res.render('fail',{
-        data:JSON.stringify({
-            msg:'用户名已存在'
-        })
-    })
+     
       
 
       //model里边已经惊醒解构所以可以直接将res.body整个丢进去
@@ -113,5 +130,41 @@ module.exports = {
           msg:'退出成功'
         })
       })
+    },
+    async yanzheng(req,res,next){
+      let email = req.body.user_email;
+     
+      //console.log(num)
+//创建发送邮件对象
+let transporter = nodemailer.createTransport({
+    host:"smtp.qq.com",//发送方邮箱，通过node——modules/nodemailer/lib/well-konw/service.js查找
+    port :"465",//端口号
+    secure:true,//true for 465，其他为false
+    auth:{
+        user:'541245636@qq.com',//发送方邮箱
+        pass:'ugpdblbjkleubfda'//smtp 验证码
     }
+}); 
+//邮件信息
+let mailobj ={
+    from:'"Fred Foo  jj"541245636@qq.com',
+    to:email,//接收地址
+    subject:"你好，我是刘猛", //标题
+    text:JSON.stringify(num), //文本内容
+    //html:"<p>刘彪彪</p>"//页面内容，二者选其一
+}
+
+//发送邮件
+transporter.sendMail(mailobj,(err,data)=>{
+    console.log(err)
+    console.log(data)
+});
+res.set('content-type','application/json;charset=utf-8')
+res.render('succ',{
+  data:{
+    msg:"发送成功"
+  }
+})
+    }
+
 }

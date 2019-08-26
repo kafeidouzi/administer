@@ -449,6 +449,11 @@ keygrip@~1.0.3:
   resolved "https://registry.npm.taobao.org/keygrip/download/keygrip-1.0.3.tgz#399d709f0aed2bab0a059e0cdd3a5023a053e1dc"
   integrity sha1-OZ1wnwrtK6sKBZ4M3TpQI6BT4dw=
 
+ljtools@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.npm.taobao.org/ljtools/download/ljtools-1.0.12.tgz#f2166f7572adeb0737eb01dff5682447cca2953e"
+  integrity sha1-8hZvdXKt6wc36wHf9WgkR8yilT4=
+
 lodash@^4.17.11:
   version "4.17.15"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
@@ -649,6 +654,11 @@ node-pre-gyp@0.12.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+nodemailer@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.npm.taobao.org/nodemailer/download/nodemailer-6.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnodemailer%2Fdownload%2Fnodemailer-6.3.0.tgz#a89b0c62d3937bdcdeecbf55687bd7911b627e12"
+  integrity sha1-qJsMYtOTe9ze7L9VaHvXkRtifhI=
 
 nopt@^4.0.1:
   version "4.0.1"

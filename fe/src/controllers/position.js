@@ -24,7 +24,7 @@ class LoadData{
       }))
       
     }else{
-      this.res.go('/')
+      this.res.go('/home')
     }
   }
   dd(start){
@@ -56,7 +56,7 @@ function loadData(pageNo, res) {
           pageCount: _.range(Math.ceil(result.data.total / COUNT))
         }))
       } else {
-        res.go('/')
+        res.go('/home')
       }
     }
   })
@@ -98,9 +98,27 @@ export default {
      new LoadData($(this).attr('data-index'),res)
     //loadData($(this).attr('data-index'),res)
    })
+   $('#router-view').on('click',".prev",function(){
+     let currtIndex = $('#page li[class="active"]').attr('data-index')
+     let index = ~~currtIndex - 1
+     if(index > -1){
+       loadData(index,res)
+     }
+   })
+   $('#router-view').on('click','.next',function(){
+     let currtIndex = $('#page li[class="active"]').attr('data-index')
+     let index = ~~currtIndex +1
+     if(index < ~~$(this).attr('data-pageCount')){
+       loadData(index,res)
+     }
+   })
   },
   add(req,res){
     res.render(positionAddView())
+    $('#posback').on('click',()=>{
+      res.back()
+    })
+
     $('#possubmit').on('click',()=>{
       let data = $('#possave').serialize()
       console.log(data)
