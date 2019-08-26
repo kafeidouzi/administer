@@ -17,6 +17,7 @@ module.exports = {
     async save(req,res,next){
         let result = await posModel.save({
             ...req.body,
+            companyLogo:req.filename,
             createTime:moment().format('YYYY-MM-DD hh:mm:ss')
         })
         if(result){
@@ -60,6 +61,17 @@ module.exports = {
       res.render('succ',{
         data:JSON.stringify({
           msg:'数据删除成功'
+        })
+      })
+    },
+    async search(req,res,next){
+      let {keywords} = req.body
+      console.log(0)
+      let list = await posModel.search(keywords)
+      res.render('succ',{
+        data:JSON.stringify({
+          list,
+          total: -1
         })
       })
     }

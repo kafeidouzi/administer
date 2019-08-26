@@ -28,5 +28,20 @@ module.exports ={
     },
     delete(id){
         return Model.deleteOne({_id:id})
+    },
+    search(keywords){
+        return Model.find({
+            $or:[
+                {
+                    companyName:new RegExp(keywords,'gi')
+                },
+                {
+                    positionName:new RegExp(keywords,'gi')
+                },
+                {
+                    city:new RegExp(keywords,'gi')
+                }
+            ]
+        }).sort({_id: -1})
     }
 }

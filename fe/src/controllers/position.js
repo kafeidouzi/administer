@@ -19,6 +19,7 @@ class LoadData{
       console.log(result.data)
       this.res.render(positionListView({
         ...result.data,
+        showPage:true,
         pageNo,
         pageCount:_.range(Math.ceil(result.data.total/COUNT))
       }))
@@ -42,6 +43,7 @@ class LoadData{
 }
 function loadData(pageNo, res) {
   let start = pageNo * COUNT
+  //res.pageNo = pageNo
   $.ajax({
     url: '/api/position/list',
     data: {
@@ -52,6 +54,7 @@ function loadData(pageNo, res) {
       if (result.ret) {
         res.render(positionListView({
           ...result.data,
+          showPage:true,
           pageNo,
           pageCount: _.range(Math.ceil(result.data.total / COUNT))
         }))
@@ -95,8 +98,8 @@ export default {
    })
 
    $('#router-view').on('click','#page li[data-index]',function(){
-     new LoadData($(this).attr('data-index'),res)
-    //loadData($(this).attr('data-index'),res)
+     //new LoadData($(this).attr('data-index'),res)
+    loadData($(this).attr('data-index'),res)
    })
    $('#router-view').on('click',".prev",function(){
      let currtIndex = $('#page li[class="active"]').attr('data-index')
@@ -112,6 +115,26 @@ export default {
        loadData(index,res)
      }
    })
+   $('#router-view').on('click','#possearch',function(){
+     let keywords = $('#keywords').val()
+     $.ajax({
+       url:'api/position/search',
+       type:'post',
+       data:{
+         keywords
+       },
+       success(result){
+         if(result.ret){
+           console.log(result.data)
+          res.render(positionListView({
+            ...result.data,
+            showPage:false
+          }))
+         }
+       }
+     })
+   })
+
   },
   add(req,res){
     res.render(positionAddView())
@@ -120,17 +143,15 @@ export default {
     })
 
     $('#possubmit').on('click',()=>{
-      let data = $('#possave').serialize()
-      console.log(data)
-      $.ajax({
-        url:'api/position/save',
-        type:'POST',
-        data,
+      $('#posssave').ajaxSubmit({
+        url:'/api/position/save',
+        type:'post',
+        clearForm:true,
         success(result){
           if(result.ret){
             res.back()
           }else{
-            alert(result.data.msg)
+
           }
         }
       })
@@ -149,17 +170,15 @@ export default {
         $('#posback').on('click',()=>{
           res.back()
         })
-        $('#possubmit').on('click',()=>{
-          let data = $('#posedit').serialize()
-          $.ajax({
-            url:'/api/position/put',
-            type:'put',
-            data:data +'&id=' + req.body.id,
+        $('possubmit').on('click',()=>{
+          $('#posedit').ajaxSubmit({
+            url:'/api/position/patch',
+            type:'patch',
             success(result){
-              if(result){
-               res.back()
+              if(result.ret){
+                res.back()
               }else{
-                alert(result.data.msg)
+
               }
             }
           })

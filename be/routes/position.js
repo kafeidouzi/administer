@@ -10,6 +10,7 @@ router.post('/save',authMiddleware.auth,positionController.save)
 router.post('/findone',authMiddleware.auth,positionController.findone)
 router.put('/put',authMiddleware.auth,positionController.put)
 router.delete('/delete',authMiddleware.auth,positionController.delete)
+router.post('/search',authMiddleware.auth,positionController.search)
 
 
 module.exports = router

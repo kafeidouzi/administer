@@ -41,7 +41,6 @@ export default {
             }else{
                 $('.navbar-nav> .user-menu>.dropdown-menu>li.user-header').css('height','163px')
             }
-            //qq = _url === 'api/users/signup' ? true :false
             $('input').val('')
         })
 
@@ -81,12 +80,7 @@ export default {
             })
         })
         $('.dropdown').on('click','#btn-signout',()=>{
-            // $.ajax({
-            //     url:'',
-            //     success(result){
-            //         console.log(result)
-            //     }
-            // })
+         
             $.ajax({
                 url :'/api/users/signout',
                 success(result){
@@ -128,6 +122,7 @@ export default {
 
             })
         })
+        $('')
     }
 
 }
