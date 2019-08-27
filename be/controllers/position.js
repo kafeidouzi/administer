@@ -43,11 +43,22 @@ module.exports = {
         })
       }
     },
-    async put (req,res,next){
-      let result = await posModel.put({
+    async patch (req,res,next){
+      console.log(req.filename)
+      console.log(req.body)
+      let data = {
         ...req.body,
         createTime:moment().format('YYYY-MM-DD hh:mm:ss')
-      })
+      }
+      
+      if(req.body.companyLogo ==' undefined'){
+        //当传如图片时，req.body不能识别二进制文件，所以没有companyLogo属性
+        data['companyLogo']=req.filename
+      }else if(req.body.companyLogo == ''){
+        //不传入文件时，后边为空，可以识别
+        delete data.companyLogo
+      }
+      let result = await posModel.patch(data)
       res.render('succ',{
         data:JSON.stringify({
           msg:'数据修改成功.'

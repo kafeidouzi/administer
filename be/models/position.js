@@ -6,7 +6,8 @@ const Model = mongoose.model('positions',{
     positionName:String,
     city: String,
     salary: String,
-    createTime:String
+    createTime:String,
+    companyLogo:String
 })
 
 module.exports ={
@@ -17,13 +18,14 @@ module.exports ={
         }
     },
     save(data){
+        
         let model = new Model(data)
         return model.save()
     },
     findone(id){
         return Model.findById(id)
     },
-    put(data){
+    patch(data){
         return Model.updateOne({_id:data.id},data)
     },
     delete(id){

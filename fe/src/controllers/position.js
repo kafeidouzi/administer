@@ -43,7 +43,7 @@ class LoadData{
 }
 function loadData(pageNo, res) {
   let start = pageNo * COUNT
-  //res.pageNo = pageNo
+  res.pageNo = pageNo
   $.ajax({
     url: '/api/position/list',
     data: {
@@ -52,6 +52,11 @@ function loadData(pageNo, res) {
     },
     success(result) {
       if (result.ret) {
+        //当不是第一页并且本页数据删完时
+        if(result.data.list.length === 0 && pageNo!==0){
+          pageNo --
+          loadData(pageNo,res)
+        }
         res.render(positionListView({
           ...result.data,
           showPage:true,
@@ -72,10 +77,10 @@ function remove(id,res){
       id
     },
     success(result){
-      console.log(result)
+    
       if(result.ret){
-        
-        res.go('/position?_='+new Date().getTime())
+        loadData(res.pageNo,res)
+        //res.go('/position?_='+new Date().getTime())
       }
     }
   })
@@ -143,9 +148,9 @@ export default {
     })
 
     $('#possubmit').on('click',()=>{
-      $('#posssave').ajaxSubmit({
+      $('#possave').ajaxSubmit({
         url:'/api/position/save',
-        type:'post',
+        type:'POST',
         clearForm:true,
         success(result){
           if(result.ret){
@@ -170,7 +175,7 @@ export default {
         $('#posback').on('click',()=>{
           res.back()
         })
-        $('possubmit').on('click',()=>{
+        $('#possubmit').on('click',()=>{
           $('#posedit').ajaxSubmit({
             url:'/api/position/patch',
             type:'patch',

@@ -13,7 +13,7 @@ var storage = multer.diskStorage({
         cb(null,filename)
     }
 })
-function fileFilter(req,res,cb){
+function fileFilter(req,file,cb){
     let index = ['image/jpeg','image/jpg','image/gif','image/png'].indexOf(file.mimetype)
     if(index === -1){
         cb(null,false)

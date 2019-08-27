@@ -30,9 +30,9 @@
       {{each list}}
       <tr>
         <td>{{$index+1}}</td>
-        <td><img width="50" height="50" src="" alt=""></td>
+        <td><img width="50" height="50" src="http://localhost:3000/uploads/{{$value['companyLogo']}}" alt=""></td>
         <td>{{$value['companyName']}}</td>
-        <td>{{$value['positionName']}}</td>
+        <td>{{$value['positionName']}}</td><!--http://fpoimg.com/50x50-->
         <td>{{$value['city']}}</td>
         <td>{{$value['createTime']}}</td>
         <td>{{$value['salary']}}</td>
