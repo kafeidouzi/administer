@@ -46,6 +46,9 @@ function loadData(pageNo, res) {
   res.pageNo = pageNo
   $.ajax({
     url: '/api/position/list',
+    headers:{
+      'x-access-token':localStorage.getItem('x-access-token')
+  },
     data: {
       start,
       count: COUNT
@@ -73,6 +76,9 @@ function remove(id,res){
   $.ajax({
     url:'/api/position/delete',
     type:'delete',
+    headers:{
+      'x-access-token':localStorage.getItem('x-access-token')
+  },
     data:{
       id
     },
@@ -125,6 +131,9 @@ export default {
      $.ajax({
        url:'api/position/search',
        type:'post',
+       headers:{
+        'x-access-token':localStorage.getItem('x-access-token')
+    },
        data:{
          keywords
        },
@@ -150,6 +159,9 @@ export default {
     $('#possubmit').on('click',()=>{
       $('#possave').ajaxSubmit({
         url:'/api/position/save',
+        headers:{
+          'x-access-token':localStorage.getItem('x-access-token')
+      },
         type:'POST',
         clearForm:true,
         success(result){
@@ -166,6 +178,9 @@ export default {
     $.ajax({
       url:'api/position/findone',
       type:'post',
+      headers:{
+        'x-access-token':localStorage.getItem('x-access-token')
+    },
       data:{
         id:req.body.id
       },
@@ -179,6 +194,9 @@ export default {
           $('#posedit').ajaxSubmit({
             url:'/api/position/patch',
             type:'patch',
+            headers:{
+              'x-access-token':localStorage.getItem('x-access-token')
+          },
             success(result){
               if(result.ret){
                 res.back()

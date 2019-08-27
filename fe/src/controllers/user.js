@@ -24,6 +24,9 @@ export default {
     isSignin(){
         return $.ajax({
             url:'./api/users/isSignin',
+            headers:{
+                'x-access-token':localStorage.getItem('x-access-token')
+            },
             dataType:'json',
             success(result){
                 return result
@@ -43,7 +46,6 @@ export default {
             }
             $('input').val('')
         })
-
         $('#btn-submit').on('click',()=>{
            // let data = $('#inputEmail3').val()
             let data = $('#user-form').serialize()
@@ -52,7 +54,7 @@ export default {
                 url :_url,
                 type:'POST',
                 data,
-                success(result){
+                success(result,textStatus,jqXHR){
                     //console.log(result)
                     if(_type === 'btn-signin'){
                         if(result.ret){
@@ -62,6 +64,8 @@ export default {
                             })
                             $('.user-menu').html(html)
                             _type=''
+                            let token = jqXHR.getResponseHeader('x-access-token')
+                            localStorage.setItem('x-access-token',token)
                         }else{
                             alert(result.data.msg)
                         }
@@ -80,35 +84,15 @@ export default {
             })
         })
         $('.dropdown').on('click','#btn-signout',()=>{
-         
-            $.ajax({
-                url :'/api/users/signout',
-                success(result){
-                    //console.log(result)
-                    location.reload()
-                    // if(_type === 'btn-signin'){
-                    //     if(result.ret){
-                    //         let html = userView({
-                    //             isSignin:true,
-                    //             username : result.data.username
-                    //         })
-                    //         $('.user-menu').html(html)
-                    //         _type = ''
-                    //     }else{
-                    //         alert(result.data.msg)
-                    //     }
-                    // }else if(_type === 'btn-signup'){
-                    //     if(result.ret){
-                    //         alert('亲，注册成功了哟')
-                    //     }else{
-                    //         alert(result.data.msg)
-                    //     }
-                    // }
-                    // else{
-                        
-                    // }
-                }
-            })
+            localStorage.removeItem('x-access-token')
+            location.reload()
+            // $.ajax({
+            //     url :'/api/users/signout',
+            //     success(result){
+               
+                    
+            //     }
+            // })
         })
         $('.code').on('click',()=>{
             let data = $('#user-form').serialize()

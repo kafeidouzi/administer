@@ -44,8 +44,8 @@ module.exports = {
       }
     },
     async patch (req,res,next){
-      console.log(req.filename)
-      console.log(req.body)
+      // console.log(req.filename)
+      // console.log(req.body)
       let data = {
         ...req.body,
         createTime:moment().format('YYYY-MM-DD hh:mm:ss')
@@ -77,7 +77,7 @@ module.exports = {
     },
     async search(req,res,next){
       let {keywords} = req.body
-      console.log(0)
+      
       let list = await posModel.search(keywords)
       res.render('succ',{
         data:JSON.stringify({

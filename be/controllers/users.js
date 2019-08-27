@@ -3,9 +3,10 @@ const ljtools = require('ljtools')
 const userModel = require('../models/users') 
 
 const tools = require('../utils/tools')
+const tokenUtil = require('../utils/token')
 let {randomNum} = ljtools
       
-let num = randomNum(1,49090)
+let num = randomNum(2323,49090)
 
 module.exports = {
   
@@ -77,7 +78,11 @@ module.exports = {
       //console.log(result)
       if(result){
         if(await  tools.compare(password,result.password)){
-          req.session.username = username
+          //req.session.username = username
+          let token = tokenUtil.sign({
+            username
+          })
+          res.set('x-access-token',token)
           res.render('succ',{
             data:JSON.stringify({
               msg:'用户登录成功',
@@ -101,19 +106,22 @@ module.exports = {
     },
     async isSignin(req,res,next){
       //req.set('content-type','application/json;charset=utf-8')
-      let username = req.session.username
+     // let username = req.session.username
+     let token = req.get('x-access-token')
+     let result = await tokenUtil.verify(token)
+     //console.log(token)
       //console.log(req.url)
-      if(username){
-        if(req.url === '/list'){
-          next()
-        }else{
+      if(result){
+        // if(req.url === '/list'){
+        //   next()
+        // }else{
           res.render('succ',{
             data:JSON.stringify({
               msg:'用户有权限',
-              username
+              username:result.username
             })
           })
-        }
+       
       }else{
         res.render('fail',{
           data:JSON.stringify({

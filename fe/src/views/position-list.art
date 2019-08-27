@@ -30,7 +30,12 @@
       {{each list}}
       <tr>
         <td>{{$index+1}}</td>
+        {{if $value['companyLogo']}}
         <td><img width="50" height="50" src="http://localhost:3000/uploads/{{$value['companyLogo']}}" alt=""></td>
+        {{/if}}
+        {{if !$value['companyLogo']}}
+        <td><img width="50" height="50" src="http://fpoimg.com/50x50" alt=""></td>
+        {{/if}}
         <td>{{$value['companyName']}}</td>
         <td>{{$value['positionName']}}</td><!--http://fpoimg.com/50x50-->
         <td>{{$value['city']}}</td>
